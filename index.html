@@ -8,8 +8,8 @@
 </style>
 </head>
 <body>
-<tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play index.</tw-noscript></noscript></tw-story>
-<tw-storydata name="index" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="0097E699-6172-478E-B2EA-CFFDF1C34AB0" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/*~ ~ ~ ~ ~ ~ ~  TABLE OF CONTENTS ~ ~ ~ ~ ~ ~ ~ 
+<tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play The Red Archive.</tw-noscript></noscript></tw-story>
+<tw-storydata name="The Red Archive" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="0097E699-6172-478E-B2EA-CFFDF1C34AB0" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/*~ ~ ~ ~ ~ ~ ~  TABLE OF CONTENTS ~ ~ ~ ~ ~ ~ ~ 
       I - Import Font
      II - Root
     III - Interface
@@ -76,13 +76,6 @@ tw-passage {
     height: calc(100vh - 9em);
     padding: 0 1em 0 0;
     line-height: 1.75;
-}
-tw-footer {
-    border-top: 1px solid var(--text);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0.5em 0 0;
 }
 #title {
     /* Currently empty, but you could do whatever you want */
@@ -209,49 +202,6 @@ tw-passage ul li tw-link::before {
 
 .enchantment-button tw-link {
     cursor: not-allowed;
-}
-
-
-/***************************
-    SPECIAL PAGES
-***************************/
-    /* Title and End Pages Formatting */
-tw-story[tags="title"] {
-    height: fit-content;
-    position: absolute;
-    margin: auto;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-[tags="title"] tw-passage {
-    display: block;
-    text-align: center;
-    height: auto;
-    padding: 0;
-    margin: auto;
-    text-transform: uppercase;
-}
-[tags="title"] tw-footer {
-    display: none;
-}
-
-    /* Credits Page */
-[tags="credits"] tw-passage tw-link::after, [tags="credits"] tw-passage tw-link::before {
-    content: unset;
-}
-
-/***************************
-    MOBILE SIZING
-***************************/
-
-@media screen and (max-width: 435px) {
-    tw-footer {
-        flex-direction: column;
-        align-items: center;
-        padding: 0.2em 0 0 0;
-    }
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Main" tags="" position="800,400" size="100,100">(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXX=&quot;)[=
 #(text-colour:red)[The Red Archive]
 
