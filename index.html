@@ -9,19 +9,7 @@
 </head>
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play The Red Archive.</tw-noscript></noscript></tw-story>
-<tw-storydata name="The Red Archive" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="0097E699-6172-478E-B2EA-CFFDF1C34AB0" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/*~ ~ ~ ~ ~ ~ ~  TABLE OF CONTENTS ~ ~ ~ ~ ~ ~ ~ 
-      I - Import Font
-     II - Root
-    III - Interface
-     IV - Macros
-      V - Text Styling
-     VI - Special Pages
-    VII - Mobile sizing
-*/
-/***************************
-    IMPORT FONTS
-***************************/
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+<tw-storydata name="The Red Archive" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="0097E699-6172-478E-B2EA-CFFDF1C34AB0" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
 
 
@@ -29,29 +17,34 @@
     ROOT
 ***************************/
 :root {
-    --bg: hsl(0, 0%, 0%);
-    --bg2: #050505;
+    --bg: #000;
+    --bg2: #0b0b0b;
     --text: #e0e0e0;
     --shadow: hsla(0, 0%, 0%, 0.25);
     --icon: #555353;
     --grey: rgb(36, 36, 36);
     --light: #505050;
+    --panel-glow: rgba(255,255,255,0.03);
+    --accent: #c9a86a;  /* warm-gold accent */
+    --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
+    --scroll-thumb-color: hsl(var(--hue-color), 12%, 75%);
 }
 
 /***************************
     INTERFACE
 ***************************/
 html {
-    font: 16px/1 Montserrat,Freesans,sans-serif;
-}
-body {
-    background: var(--bg);
-    color: var(--text);
-    height: 97%;
-    font-size: 18px;
+    font: 1.1em Montserrat, Freesans, sans-serif;
 }
 
-    /* Remove/Re-set Hard-Coded elements */
+body {
+    background: radial-gradient(circle at top, #111 0%, #000 70%);
+    color: var(--text);
+    height: 97%;
+    font-size: 1.2em;
+    overflow: hidden;
+}
+
 tw-sidebar {
     display: none;
 }
@@ -63,23 +56,34 @@ tw-story {
 tw-expression[name*="input"] {
     border: unset !important;
 }
-tw-expression[name*="input"] input:focus, tw-expression[name*="input"] textarea:focus {
+tw-expression[name*="input"] input:focus,
+tw-expression[name*="input"] textarea:focus {
     outline: none;
 }
 tw-story textarea {
     resize: both;
 }
 
-    /* New Interface */
 tw-passage {
     overflow: auto;
     height: calc(100vh - 9em);
-    padding: 0 1em 0 0;
-    line-height: 1.75;
+
+    padding: 2em 2.5em 2em 2.5em;
+    line-height: 1.85;
+    box-shadow: inset 0 0 25px rgba(255,255,255,0.03);
+    border-left: 1px solid rgba(255,255,255,0.04);
+    border-right: 1px solid rgba(255,255,255,0.04);
+  	background: radial-gradient(
+    circle at center,
+    rgba(180, 20, 20, 0.09) 0%,
+    rgba(180, 20, 20, 0.04) 28%,
+    rgba(0, 0, 0, 0) 70%
+);
 }
-#title {
-    /* Currently empty, but you could do whatever you want */
-}
+
+#title {}
+#menu {}
+
 tw-icon {
     margin: unset;
     font-size:18px;
@@ -88,110 +92,131 @@ tw-icon[alt] {
     opacity: 1;
     color: var(--icon);
 }
-#menu {
-    /* Same as with #title, but you can style it if you want */
-}
+
 tw-dialog {
-    background: var(--bg2);
+    background: linear-gradient(180deg, #0c0c0c, #050505);
     color: var(--text);
-    border: 1px solid #444;
+    border: 1px solid #222;
+    box-shadow: 0 0 25px var(--panel-glow);
 }
 
 /***************************
     MACROS
 ***************************/
-    /* Links */
-    /*Note: #menu tw-link is for the restart link, but you can separate it if you want it styled differently.*/
-tw-passage tw-link, tw-passage tw-link:visited, #menu tw-link, tw-dialog-links tw-link {
-    color: var(--text);
+
+tw-passage tw-link,
+#menu tw-link,
+tw-dialog-links tw-link {
+    color: #e0e0e0;
+    position: relative;
     font-weight: bold;
+    transition: color 0.25s;
 }
-tw-passage tw-link:hover, #menu tw-link:hover, tw-dialog-links tw-link:hover {
-    color: var(--grey);
-    text-decoration: underline;
+
+tw-passage tw-link:visited,
+#menu tw-link:visited,
+tw-dialog-links tw-link:visited {
+    color: #e0e0e0;
 }
-tw-passage tw-link::after, tw-dialog-links tw-link::after {
+
+tw-passage tw-link:hover,
+#menu tw-link:hover,
+tw-dialog-links tw-link:hover {
+    color: #3f1313;
+}
+
+tw-passage tw-link::after,
+tw-dialog-links tw-link::after {
     content: " ∽";
+    opacity: 0.6;
+    transition: opacity 0.25s;
 }
-tw-passage tw-link::before, tw-dialog-links tw-link::before {
-    content: "∼ ";
+tw-passage tw-link:hover::after {
+    opacity: 1;
 }
+
+tw-passage tw-link::before,
+tw-dialog-links tw-link::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0%;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.3s;
+}
+tw-passage tw-link:hover::before,
+tw-dialog-links tw-link:hover::before {
+    width: 100%;
+}
+
 tw-dialog-links tw-link {
     border: unset;
 }
-/* 
-    This stylesheet doesn't differenciate betwee regular and cycling links, but if you want to, you can do so by targetting these elements: 
-	> tw-expression[name="cycling-link"] tw-link
-	> tw-expression[name="seq-link"] tw-link
-*/
-    /* Input, Textarea, Dropdown */
-tw-story input[type="text"], tw-story textarea, tw-story select {
-  background-color: var(--bg);
-  color: var(--text);
-  border: 1px dashed var(--text);
 
-}
-tw-story textarea {
-  resize: both;
-}
-tw-story select {
-  	padding: .34em .4em;
-}
-tw-story input:hover, tw-story input:focus, tw-story textarea:hover, tw-story textarea:focus, tw-story select:hover, tw-story select:focus {
-  background: var(--light) !important;
-  border: 1px solid var(--text) !important;
-}
 
 /***************************
     TEXT STYLING
 ***************************/
-    /* Headings */
-    /* Note: these are examples of what can be done, you don't have to keep them. */
-h1, h2, h3, h4, h5, h6 {font-family: 'Alice', serif;}
+h1, h2, h3, h4, h5, h6 { 
+    font-family: 'Alice', serif;
+}
+
 h1 {
     text-align: center;
     font-size: 200%;
     text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    text-shadow: 0 0 5px rgba(255,255,255,0.12);
 }
+
 h2 {
     text-align: right;
     font-size: 150%;
+    opacity: 0.85;
+    font-style: italic;
 }
+
 h3 {
     font-size: 125%;
     font-weight: normal;
     text-decoration: underline overline dotted 1px;
     margin-left: 3em;
 }
+
 h4 {
     text-decoration: underline;
     font-weight: normal;
     margin-left: 2em;
 }
+
 h5 {
     font-size: 90%;
     text-transform: lowercase;
     margin-left: 1em;
 }
+
 h6 {
     text-transform: lowercase;
     text-shadow: 0px 0px 1px var(--grey);
 }
 
-    /* Lists */
 tw-passage ul {
     list-style: none;
     text-align: left;
 }
+
 tw-passage ul li::before {
     content: "∼ ";
     font-weight: bold;
 }
+
 tw-passage ul li tw-link::before {
     content: none;
 }
 
-    /* Other Stuff */
 .choice {
     background-color: rgb(246, 244, 248);
     border: 1px dotted rgba(13, 9, 31, 0.805);
@@ -202,7 +227,81 @@ tw-passage ul li tw-link::before {
 
 .enchantment-button tw-link {
     cursor: not-allowed;
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Main" tags="" position="800,400" size="100,100">(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXX=&quot;)[=
+}
+
+/***************************
+    SCROLLBARS
+***************************/
+tw-passage::-webkit-scrollbar {
+    width: 10px;
+}
+
+tw-passage::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+tw-passage::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #333, #111);
+    border-radius: 8px;
+    border: 2px solid #0a0a0a;
+}
+
+tw-passage::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--accent), #333);
+}
+
+/***************************
+    RESPONSIVE
+***************************/
+@media (max-width: 900px) {
+    tw-passage {
+        font-size: 0.8em;
+        margin: 1.5em 6%;
+    }
+}
+
+@media (max-width: 600px) {
+    tw-passage {
+        font-size: 0.6em;
+        margin: 1.2em 7%;
+    }
+    tw-story {
+        border-left-width: 0.9em;
+    }
+}
+
+@media (max-width: 420px) {
+    tw-passage {
+        font-size: 0.4em;
+        margin: 1em 8%;
+    }
+    tw-story {
+        border-left-width: 0.6em;
+    }
+}
+
+tw-passage img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+}
+
+tw-passage audio {
+    display: block;
+    margin: 1.5em auto;
+    width: 100%;
+    max-width: 450px;
+
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 0.5em;
+    box-shadow: 0 0 20px rgba(255,255,255,0.03);
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript">document.head.insertAdjacentHTML(
+  "beforeend",
+  '<meta name="viewport" content="width=device-width, initial-scale=1">'
+);</script><tw-tag name="default" color="none"></tw-tag><tw-passagedata pid="1" name="Main" tags="" position="800,400" size="100,100">(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXX=&quot;)[=
 #(text-colour:red)[The Red Archive]
 
 [[see my pixel art &amp; songs|Music]]
@@ -211,63 +310,51 @@ tw-passage ul li tw-link::before {
 
 
 [**© 2025 Kyrie D&#39;Agostino (Bucharest, Romania)**]</tw-passagedata><tw-passagedata pid="2" name="Fool" tags="" position="1000,100" size="100,100">(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXX=&quot;)[=
-&lt;img src=&quot;img/thefool.png&quot; width=&quot;50%&quot;&gt;
-&lt;audio controls&gt;
+&lt;img src=&quot;img/thefool.png&quot;&gt;
+&lt;audio controls controlsList=&quot;nodownload&quot;&gt;
   &lt;source src=&quot;aud/thefoolsong.mp3&quot; type=&quot;audio/mpeg&quot;&gt;
 Your browser does not support the audio element.
 &lt;/audio&gt;
 
-
-
-[[back|Music]]</tw-passagedata><tw-passagedata pid="3" name="Music" tags="" position="800,200" size="100,100">(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXX=&quot;)+(text-colour:red)[All of these works have been released on Bandcamp and Soundcloud under my alias &quot;Metamorphage.&quot;]
+[[back|Music]]</tw-passagedata><tw-passagedata pid="3" name="Music" tags="" position="800,200" size="100,100">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;\
+(text-colour:red)[**All of these works have been released on Bandcamp and Soundcloud.**]
 
 [[Katherina: Duet with Red Bastard|Katherina]]
 [[The Fool: Monologue with Red Thing|Fool]]
 [[Metamorphage|Metamorphage]]
 [[Samsara|Samsara]]
 
-
-
 [[back|Main]]</tw-passagedata><tw-passagedata pid="4" name="Katherina" tags="" position="800,0" size="100,100">(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXX=&quot;)[=
-&lt;img src=&quot;img/katherina.png&quot; width=&quot;50%&quot;&gt;
-&lt;audio controls&gt;
-  &lt;source src=&quot;aud/katherinasong.mp3&quot; type=&quot;audio/mpeg&quot;&gt;
-Your browser does not support the audio element.
-&lt;/audio&gt;
-
-
+&lt;img src=&quot;img/katherina.png&quot;&gt;
+&lt;div id=&quot;audiowrap&quot;&gt;&lt;audio controls controlsList=&quot;nodownload&quot;&gt; &lt;source src=&quot;aud/katherinasong.mp3&quot; type=&quot;audio/mpeg&quot;&gt; Your browser does not support HTML5 Audio&lt;/audio&gt;&lt;/div&gt;
 
 [[back|Music]]</tw-passagedata><tw-passagedata pid="5" name="Samsara" tags="" position="600,0" size="100,100">(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXX=&quot;)[=
-&lt;img src=&quot;img/samsara.png&quot; width=&quot;50%&quot;&gt;
-&lt;audio controls&gt;
+&lt;img src=&quot;img/samsara.png&quot;&gt;
+&lt;audio controls controlsList=&quot;nodownload&quot;&gt;
   &lt;source src=&quot;aud/samsarasong.wav&quot; type=&quot;audio/wav&quot;&gt;
 Your browser does not support the audio element.
 &lt;/audio&gt;
 
-
-
 [[back|Music]]</tw-passagedata><tw-passagedata pid="6" name="Metamorphage" tags="" position="600,200" size="100,100">(align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXX=&quot;)[=
-&lt;img src=&quot;img/jackmiller.png&quot; width=&quot;50%&quot;&gt;
-&lt;audio controls&gt;
+&lt;img src=&quot;img/jackmiller.png&quot;&gt;
+&lt;audio controls controlsList=&quot;nodownload&quot;&gt;
   &lt;source src=&quot;aud/metamorphagesong.wav&quot; type=&quot;audio/wav&quot;&gt;
 Your browser does not support the audio element.
 &lt;/audio&gt;
 
-
-
-[[back|Music]]</tw-passagedata><tw-passagedata pid="7" name="Red King" tags="" position="1000,600" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Main]]]
+[[back|Music]]</tw-passagedata><tw-passagedata pid="7" name="Red King" tags="default" position="1000,600" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Main]]]
 (align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXX=&quot;)[=
 Kyrie D&#39;Agostino
 ---
 #(text-colour:red)[The Red King]
 
-[[►►►-&gt;Echoes]]</tw-passagedata><tw-passagedata pid="8" name="Echoes" tags="" position="800,700" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Red King]]]
+[[►►►-&gt;Echoes]]</tw-passagedata><tw-passagedata pid="8" name="Echoes" tags="default" position="800,700" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Red King]]]
 (align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXX=&quot;)[=
 #Act I
 (t8n:&quot;dissolve&quot;)+(t8n-time:1s)+(after: time + 3s)[=
 #&quot;Echoes&quot;
 (t8n:&quot;dissolve&quot;)+(t8n-time:1s)+(after: time + 3s)[=
-[[►►►-&gt;Gray Suits]]</tw-passagedata><tw-passagedata pid="9" name="Gray Suits" tags="" position="700,900" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Echoes]]]
+[[►►►-&gt;Gray Suits]]</tw-passagedata><tw-passagedata pid="9" name="Gray Suits" tags="default" position="700,900" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Echoes]]]
 # CHAPTER I - GRAY SUITS
 
 The year is 1969.
@@ -389,7 +476,7 @@ You know what&#39;s even funnier?
 
 Edelweiss sat alone after the meeting. Ten minutes. No movement.
 
-[[►►►-&gt;Katherina&#39;s Chapter]]</tw-passagedata><tw-passagedata pid="10" name="Katherina&#39;s Chapter" tags="" position="900,1000" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Gray Suits]]]
+[[►►►-&gt;Katherina&#39;s Chapter]]</tw-passagedata><tw-passagedata pid="10" name="Katherina&#39;s Chapter" tags="default" position="900,1000" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Gray Suits]]]
 # CHAPTER II - KATHERINA
 
 Well, Dear Old Corporate won&#39;t like me telling you this, but nothing I do pleases, so may as well, if there&#39;s nothing that ends well...
@@ -464,7 +551,7 @@ But there was somethin&#39; that should&#39;ve weighed more on her mind.
 
 Freezing like a lollypop.
 
-[[►►►-&gt;Red In The Snow]]</tw-passagedata><tw-passagedata pid="11" name="Red In The Snow" tags="" position="1100,900" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Katherina&#39;s Chapter]]]
+[[►►►-&gt;Red In The Snow]]</tw-passagedata><tw-passagedata pid="11" name="Red In The Snow" tags="default" position="1100,900" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Katherina&#39;s Chapter]]]
 # CHAPTER III - RED IN THE SNOW
 
 A crackle of lightning.
@@ -567,7 +654,7 @@ Something ancient. Something opposite.
 
 But not cruel.
 
-[[►►►-&gt;Bedtime Stories]]</tw-passagedata><tw-passagedata pid="12" name="Bedtime Stories" tags="" position="1300,900" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Red In The Snow]]]
+[[►►►-&gt;Bedtime Stories]]</tw-passagedata><tw-passagedata pid="12" name="Bedtime Stories" tags="default" position="1300,900" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Red In The Snow]]]
 # CHAPTER IV - BEDTIME STORIES
 
 Once upon a time, there was an Emperor.
@@ -711,13 +798,13 @@ And so the Fool, now named and wandering and light enough to slip through the sp
 
 and became her emissary.
 
-[[►►►-&gt;Coronation]]</tw-passagedata><tw-passagedata pid="13" name="Coronation" tags="" position="1300,700" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Bedtime Stories]]]
+[[►►►-&gt;Coronation]]</tw-passagedata><tw-passagedata pid="13" name="Coronation" tags="default" position="1300,700" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Bedtime Stories]]]
 (align:&quot;=&gt;&lt;=&quot;)+(box:&quot;=XXX=&quot;)[=
 #Act II
 (t8n:&quot;dissolve&quot;)+(t8n-time:1s)+(after: time + 3s)[=
 #&quot;Coronation&quot;
 (t8n:&quot;dissolve&quot;)+(t8n-time:1s)+(after: time + 3s)[=
-[[►►►-&gt;A Long Walk]]</tw-passagedata><tw-passagedata pid="14" name="A Long Walk" tags="" position="1300,500" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Coronation]]]
+[[►►►-&gt;A Long Walk]]</tw-passagedata><tw-passagedata pid="14" name="A Long Walk" tags="default" position="1300,500" size="100,100">(align:&quot;&lt;==&quot;)+(box:&quot;X=&quot;)[[[back|Coronation]]]
 # CHAPTER V - A LONG WALK
 
 It were a red hazy hue all over Venus.
